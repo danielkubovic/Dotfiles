@@ -1,4 +1,4 @@
-URxvt*foreground: white
-URxvt*background: black
-URxvt.font: xft:monospace:size=10
-URxvt.scrollBar: false
+urxvt*foreground: white
+urxvt*background: black
+urxvt.font: xft:monospace:size=10
+urxvt.scrollBar: false
