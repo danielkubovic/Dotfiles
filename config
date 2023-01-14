@@ -1,30 +1,22 @@
-# Kubish's i3 config file (v4)
-#
-# Please see https://i3wm.org/docs/userguide.html for a complete reference!
-
+# mod/super keys
 set $mod Mod1
 set $win Mod4
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
+# window titles font
 font pango:monospace 10
 
-# Use Mouse+$mod to drag floating windows to their wanted position
+# drag floating windows with Mouse+$mod
 floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec urxvt
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
-# start dmenu (a program launcher)
-#bindsym $mod+d exec dmenu_run
-
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-bindsym $mod+Shift+d exec --no-startup-id i3-dmenu-desktop
+# start a program launcher
+bindsym $mod+f exec dmenu_run
+#bindsym $mod+f exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
@@ -32,25 +24,29 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
+# change workspace focus
+bindsym $win+l workspace next
+bindsym $win+h workspace prev
+
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# split in horizontal orientation
+# horizontal split
 bindsym $mod+b split h
 
-# split in vertical orientation
+# vertical split
 bindsym $mod+v split v
 
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+# enter fullscreen mode
+bindsym $mod+Shift+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-#bindsym $mod+s layout stacking
-#bindsym $mod+w layout tabbed
-#bindsym $mod+e layout toggle split
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -59,10 +55,10 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-#bindsym $mod+a focus parent
+bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 set $ws1 "1"
 set $ws2 "2"
@@ -99,65 +95,50 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
-# reload the configuration file
+# i3wm system controls
+bindsym $mod+x exec i3lock -c 000000
 bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-# resize window (you can also use the mouse for that)
+bindsym $mod+r mode "resize"
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym h resize shrink width 10 px or 10 ppt
         bindsym j resize grow height 10 px or 10 ppt
         bindsym k resize shrink height 10 px or 10 ppt
         bindsym l resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape
+        # exit resize mode
         bindsym Return mode "default"
         bindsym Caps_Lock mode "default"
 }
 
-#bindsym $mod+r mode "resize"
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+# start i3bar
 bar {
-        position top
         status_command i3status
+        position top
 }
-
-exec_always ~/.screenlayout/screens.sh
-
-bindsym $win+l workspace next
-bindsym $win+h workspace prev
 
 hide_edge_borders both
 
-# Pulse Audio controls (play with entity numbers before percentages if current don't work)
-#bindsym F7 exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
-#bindsym F8 exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
-#bindsym F9 exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
-# specific keyboards with dedicated volume buttons
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
+# Layout of displays
+#exec_always ~/.screenlayout/work_screens.sh
+exec_always ~/.screenlayout/home_screens.sh
+
+# Audio controls
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+bindsym F7 exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym F8 exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym F9 exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # bindings
 exec_always setxkbmap us -option caps:swapescape
-bindsym $mod+a exec setxkbmap us -option caps:swapescape
-bindsym $mod+z exec setxkbmap cz_qwerty -option caps:swapescape
+bindsym $mod+n exec setxkbmap us -option caps:swapescape
+bindsym $mod+c exec setxkbmap cz_qwerty -option caps:swapescape
 
 bindsym $mod+i exec urxvt -e htop
-bindsym $mod+w exec google-chrome
-assign [class="Google-chrome"] $ws2
-bindsym $mod+Shift+f exec firefox
-assign [class="Firefox"] $ws3
-bindsym $mod+s exec spotify
-assign [class="spotify"] $ws10
+bindsym $mod+Shift+w exec google-chrome
+#assign [class="Google-chrome"] $ws2
+#bindsym $mod+s exec spotify
+#assign [class="spotify"] $ws10
